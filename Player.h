@@ -6,7 +6,11 @@
 class Player {
 private:
     sf::RectangleShape box;
-    float speed;
+
+    float horizontalSpeed;
+    float verticalVelocity;
+    float gravity;
+    float groundY;
 
 public:
     Player();
