@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "Platform.h"
+#include "Spike.h"
 
 int main() {
     sf::RenderWindow window(
@@ -11,10 +13,9 @@ int main() {
 
     Player player;
 
-    sf::RectangleShape ground;
-    ground.setSize(sf::Vector2f(1000.f, 100.f));
-    ground.setPosition(0.f, 500.f);
-    ground.setFillColor(sf::Color(100, 100, 100));
+    Platform ground(0.f, 500.f, 1000.f, 100.f);
+
+    Spike spike(600.f, ground.getTop());
 
     sf::Clock clock;
 
@@ -31,9 +32,45 @@ int main() {
 
         player.update(deltaTime);
 
+        sf::FloatRect currentBounds =
+            player.getBounds();
+
+        sf::FloatRect previousBounds =
+            player.getPreviousBounds();
+
+        sf::FloatRect platformBounds =
+            ground.getBounds();
+
+        if (currentBounds.intersects(platformBounds)) {
+            float previousBottom =
+                previousBounds.top + previousBounds.height;
+
+            float currentBottom =
+                currentBounds.top + currentBounds.height;
+
+            float platformTop =
+                platformBounds.top;
+
+            bool cameFromAbove =
+                previousBottom <= platformTop &&
+                currentBottom >= platformTop;
+
+            if (cameFromAbove) {
+                player.landOn(platformTop);
+            }
+        }
+
+        sf::FloatRect spikeBounds =
+            spike.getBounds();
+
+        if (player.getBounds().intersects(spikeBounds)) {
+            player.setColor(sf::Color::Red);
+        }
+
         window.clear(sf::Color(25, 25, 40));
 
-        window.draw(ground);
+        ground.draw(window);
+        spike.draw(window);
         player.draw(window);
 
         window.display();

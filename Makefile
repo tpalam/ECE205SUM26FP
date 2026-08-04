@@ -7,7 +7,7 @@ LIBRARY_PATH = -L$(SFML_PATH)/lib
 LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET = game
-SOURCES = main.cpp Player.cpp
+SOURCES = main.cpp Player.cpp Platform.cpp Spike.cpp
 
 $(TARGET): $(SOURCES)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(TARGET) $(LIBRARY_PATH) $(LIBRARIES)
