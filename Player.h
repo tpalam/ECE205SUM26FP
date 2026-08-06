@@ -10,12 +10,15 @@ private:
     float horizontalSpeed;
     float verticalVelocity;
     float gravity;
+    bool alive;
 
     sf::FloatRect previousBounds;
 
 public:
     Player();
-
+    void die();
+    void reset();
+    bool isAlive() const;
     void update(float deltaTime);
     void draw(sf::RenderWindow& window) const;
 

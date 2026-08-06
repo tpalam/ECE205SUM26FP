@@ -28,6 +28,11 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+        
+            if (event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::R) {
+                player.reset();
+            }
         }
 
         player.update(deltaTime);
@@ -64,7 +69,7 @@ int main() {
             spike.getBounds();
 
         if (player.getBounds().intersects(spikeBounds)) {
-            player.setColor(sf::Color::Red);
+            player.die();
         }
 
         window.clear(sf::Color(25, 25, 40));

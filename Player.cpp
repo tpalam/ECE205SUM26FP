@@ -8,11 +8,14 @@ Player::Player() {
     horizontalSpeed = 200.f;
     verticalVelocity = 0.f;
     gravity = 1000.f;
+    alive = true;
 
     previousBounds = box.getGlobalBounds();
 }
 
 void Player::update(float deltaTime) {
+    if(!alive)
+        return;
     previousBounds = box.getGlobalBounds();
 
     verticalVelocity += gravity * deltaTime;
@@ -42,6 +45,16 @@ void Player::landOn(float platformTop) {
     );
 
     verticalVelocity = 0.f;
+}
+void Player::die() {
+    alive = false;
+    box.setFillColor(sf::Color::Red);
+}
+void Player::reset() {
+    box.setPosition(50.f, 100.f);
+    box.setFillColor(sf::Color::Cyan);
+    verticalVelocity = 0.f;
+    alive = true;
 }
 void Player::setColor(const sf::Color& color) {
     box.setFillColor(color);
