@@ -11,6 +11,8 @@ private:
     float verticalVelocity;
     float gravity;
     bool alive;
+    bool onGround;
+    float jumpVelocity;
 
     sf::FloatRect previousBounds;
 
@@ -21,6 +23,7 @@ public:
     bool isAlive() const;
     void update(float deltaTime);
     void draw(sf::RenderWindow& window) const;
+    void jump();
 
     sf::FloatRect getBounds() const;
     sf::FloatRect getPreviousBounds() const;

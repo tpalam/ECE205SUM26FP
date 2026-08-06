@@ -33,6 +33,10 @@ int main() {
                 event.key.code == sf::Keyboard::R) {
                 player.reset();
             }
+
+            if (event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::Space) {
+                player.jump();}
         }
 
         player.update(deltaTime);
