@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
+
 #include "Player.h"
 #include "Platform.h"
 #include "Spike.h"
@@ -13,9 +15,13 @@ int main() {
 
     Player player;
 
-    Platform ground(0.f, 500.f, 1000.f, 100.f);
+std::vector<Platform> platforms;
 
-    Spike spike(600.f, ground.getTop());
+platforms.emplace_back(0.f, 500.f, 3000.f, 100.f);
+platforms.emplace_back(800.f, 400.f, 200.f, 100.f);
+platforms.emplace_back(1200.f, 350.f, 200.f, 150.f);
+
+Spike spike(600.f, 500.f);
 
     sf::Clock clock;
 
@@ -28,7 +34,7 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-        
+
             if (event.type == sf::Event::KeyPressed &&
                 event.key.code == sf::Keyboard::R) {
                 player.reset();
@@ -36,49 +42,49 @@ int main() {
 
             if (event.type == sf::Event::KeyPressed &&
                 event.key.code == sf::Keyboard::Space) {
-                player.jump();}
+                player.jump();
+            }
         }
 
         player.update(deltaTime);
 
-        sf::FloatRect currentBounds =
-            player.getBounds();
+        sf::FloatRect currentBounds = player.getBounds();
 
-        sf::FloatRect previousBounds =
-            player.getPreviousBounds();
+        sf::FloatRect previousBounds = player.getPreviousBounds();
 
-        sf::FloatRect platformBounds =
-            ground.getBounds();
+        for (const Platform& platform : platforms) {
+            sf::FloatRect platformBounds = platform.getBounds();
 
-        if (currentBounds.intersects(platformBounds)) {
-            float previousBottom =
-                previousBounds.top + previousBounds.height;
+            if (currentBounds.intersects(platformBounds)) {
+                float previousBottom = previousBounds.top + previousBounds.height;
 
-            float currentBottom =
-                currentBounds.top + currentBounds.height;
+                float currentBottom = currentBounds.top + currentBounds.height;
 
-            float platformTop =
-                platformBounds.top;
+                float platformTop =platformBounds.top;
 
-            bool cameFromAbove =
-                previousBottom <= platformTop &&
-                currentBottom >= platformTop;
+                bool cameFromAbove =
+                    previousBottom <= platformTop &&
+                    currentBottom >= platformTop;
 
-            if (cameFromAbove) {
-                player.landOn(platformTop);
+                if (cameFromAbove) {
+                    player.landOn(platformTop);
+                    // Refresh because landOn() changed the player's position.
+                    currentBounds = player.getBounds();
+                }
             }
         }
 
-        sf::FloatRect spikeBounds =
-            spike.getBounds();
-
-        if (player.getBounds().intersects(spikeBounds)) {
+        if (player.getBounds().intersects(
+                spike.getBounds())) {
             player.die();
         }
 
         window.clear(sf::Color(25, 25, 40));
 
-        ground.draw(window);
+        for (const Platform& platform : platforms) {
+            platform.draw(window);
+        }
+
         spike.draw(window);
         player.draw(window);
 
