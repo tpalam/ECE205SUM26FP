@@ -53,16 +53,17 @@ void Player::die() {
     alive = false;
     box.setFillColor(sf::Color::Red);
 }
-void Player::reset() { 
-    onGround = false;
+void Player::reset() {
     box.setPosition(50.f, 100.f);
     box.setFillColor(sf::Color::Cyan);
+
     verticalVelocity = 0.f;
+    onGround = false;
     alive = true;
+
+    previousBounds = box.getGlobalBounds();
 }
-void Player::setColor(const sf::Color& color) {
-    box.setFillColor(color);
-}
+
 
 void Player::jump() {
     if (onGround) {

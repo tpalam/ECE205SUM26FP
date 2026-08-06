@@ -29,7 +29,6 @@ public:
     sf::FloatRect getPreviousBounds() const;
 
     void landOn(float platformTop);
-    void setColor(const sf::Color& color);
 };
 
 #endif

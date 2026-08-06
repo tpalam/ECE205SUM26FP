@@ -21,7 +21,12 @@ platforms.emplace_back(0.f, 500.f, 3000.f, 100.f);
 platforms.emplace_back(800.f, 400.f, 200.f, 100.f);
 platforms.emplace_back(1200.f, 350.f, 200.f, 150.f);
 
-Spike spike(600.f, 500.f);
+std::vector<Spike> spikes;
+
+spikes.emplace_back(600.f, 500.f);
+spikes.emplace_back(1050.f, 500.f);
+spikes.emplace_back(1100.f, 500.f);
+spikes.emplace_back(1500.f, 500.f);
 
     sf::Clock clock;
 
@@ -74,9 +79,12 @@ Spike spike(600.f, 500.f);
             }
         }
 
-        if (player.getBounds().intersects(
-                spike.getBounds())) {
-            player.die();
+        for (const Spike& spike : spikes) {
+            if (player.getBounds().intersects(
+                    spike.getBounds())) {
+                player.die();
+                break;
+            }
         }
 
         window.clear(sf::Color(25, 25, 40));
@@ -85,7 +93,9 @@ Spike spike(600.f, 500.f);
             platform.draw(window);
         }
 
-        spike.draw(window);
+        for (const Spike& spike : spikes) {
+            spike.draw(window);
+        }
         player.draw(window);
 
         window.display();
