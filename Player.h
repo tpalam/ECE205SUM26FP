@@ -10,25 +10,30 @@ private:
     float horizontalSpeed;
     float verticalVelocity;
     float gravity;
-    bool alive;
-    bool onGround;
     float jumpVelocity;
+
+    bool onGround;
+    bool alive;
 
     sf::FloatRect previousBounds;
 
 public:
     Player();
-    void die();
-    void reset();
-    bool isAlive() const;
+
     void update(float deltaTime);
     void draw(sf::RenderWindow& window) const;
-    void jump();
 
     sf::FloatRect getBounds() const;
     sf::FloatRect getPreviousBounds() const;
+    sf::Vector2f getPosition() const;
 
     void landOn(float platformTop);
+
+    void jump();
+    void die();
+    void reset();
+
+    bool isAlive() const;
 };
 
 #endif

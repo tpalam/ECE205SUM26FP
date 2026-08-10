@@ -8,16 +8,19 @@ Player::Player() {
     horizontalSpeed = 200.f;
     verticalVelocity = 0.f;
     gravity = 1000.f;
-    alive = true;
-    onGround = false;
     jumpVelocity = -600.f;
+
+    onGround = false;
+    alive = true;
 
     previousBounds = box.getGlobalBounds();
 }
 
 void Player::update(float deltaTime) {
-    if(!alive)
+    if (!alive) {
         return;
+    }
+
     previousBounds = box.getGlobalBounds();
 
     verticalVelocity += gravity * deltaTime;
@@ -40,6 +43,10 @@ sf::FloatRect Player::getPreviousBounds() const {
     return previousBounds;
 }
 
+sf::Vector2f Player::getPosition() const {
+    return box.getPosition();
+}
+
 void Player::landOn(float platformTop) {
     box.setPosition(
         box.getPosition().x,
@@ -49,25 +56,31 @@ void Player::landOn(float platformTop) {
     verticalVelocity = 0.f;
     onGround = true;
 }
+
+void Player::jump() {
+    if (onGround && alive) {
+        verticalVelocity = jumpVelocity;
+        onGround = false;
+    }
+}
+
 void Player::die() {
     alive = false;
     box.setFillColor(sf::Color::Red);
 }
+
 void Player::reset() {
     box.setPosition(50.f, 100.f);
     box.setFillColor(sf::Color::Cyan);
 
     verticalVelocity = 0.f;
+
     onGround = false;
     alive = true;
 
     previousBounds = box.getGlobalBounds();
 }
 
-
-void Player::jump() {
-    if (onGround) {
-        verticalVelocity = jumpVelocity;
-        onGround = false;
-    }
+bool Player::isAlive() const {
+    return alive;
 }

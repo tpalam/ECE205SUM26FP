@@ -1,12 +1,25 @@
 #include "Platform.h"
 
-Platform::Platform(float x, float y, float width, float height) {
-    shape.setSize(sf::Vector2f(width, height));
+Platform::Platform(
+    float x,
+    float y,
+    float width,
+    float height
+) {
+    shape.setSize(
+        sf::Vector2f(width, height)
+    );
+
     shape.setPosition(x, y);
-    shape.setFillColor(sf::Color(100, 100, 100));
+
+    shape.setFillColor(
+        sf::Color(100, 100, 100)
+    );
 }
 
-void Platform::draw(sf::RenderWindow& window) const {
+void Platform::draw(
+    sf::RenderWindow& window
+) const {
     window.draw(shape);
 }
 

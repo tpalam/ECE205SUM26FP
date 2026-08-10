@@ -6,16 +6,34 @@ Spike::Spike(float x, float platformTop) {
 
     shape.setPointCount(3);
 
-    shape.setPoint(0, sf::Vector2f(0.f, height));
-    shape.setPoint(1, sf::Vector2f(width / 2.f, 0.f));
-    shape.setPoint(2, sf::Vector2f(width, height));
+    shape.setPoint(
+        0,
+        sf::Vector2f(0.f, height)
+    );
 
-    shape.setPosition(x, platformTop - height);
+    shape.setPoint(
+        1,
+        sf::Vector2f(width / 2.f, 0.f)
+    );
 
-    shape.setFillColor(sf::Color::Red);
+    shape.setPoint(
+        2,
+        sf::Vector2f(width, height)
+    );
+
+    shape.setPosition(
+        x,
+        platformTop - height
+    );
+
+    shape.setFillColor(
+        sf::Color::Red
+    );
 }
 
-void Spike::draw(sf::RenderWindow& window) const {
+void Spike::draw(
+    sf::RenderWindow& window
+) const {
     window.draw(shape);
 }
 
