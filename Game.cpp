@@ -7,6 +7,13 @@ Game::Game()
       ),
       camera(
           sf::FloatRect(0.f, 0.f, 1000.f, 600.f)
+      ),
+      finishLine(
+          2700.f,
+          500.f
+      ),
+      state(
+          GameState::Playing
       ) {
 
     window.setFramerateLimit(60);
@@ -78,23 +85,35 @@ void Game::processEvents() {
             event.key.code == sf::Keyboard::R) {
 
             player.reset();
-            camera.setCenter(500.f, 300.f);
+
+            state = GameState::Playing;
+
+            camera.setCenter(
+                500.f,
+                300.f
+            );
         }
 
         if (event.type == sf::Event::KeyPressed &&
             event.key.code == sf::Keyboard::Space) {
 
-            player.jump();
+            if (state == GameState::Playing) {
+                player.jump();
+            }
         }
     }
 }
 
 void Game::update(float deltaTime) {
-    player.update(deltaTime);
+    if (state == GameState::Playing) {
+        player.update(deltaTime);
 
-    handlePlatformCollisions();
-    handleSpikeCollisions();
-    updateCamera();
+        handlePlatformCollisions();
+        handleSpikeCollisions();
+        handleFinishCollision();
+
+        updateCamera();
+    }
 }
 
 void Game::handlePlatformCollisions() {
@@ -140,8 +159,19 @@ void Game::handleSpikeCollisions() {
                 spike.getBounds())) {
 
             player.die();
+
+            state = GameState::Dead;
+
             break;
         }
+    }
+}
+
+void Game::handleFinishCollision() {
+    if (player.getBounds().intersects(
+            finishLine.getBounds())) {
+
+        state = GameState::Complete;
     }
 }
 
@@ -173,6 +203,8 @@ void Game::render() {
     for (const Spike& spike : spikes) {
         spike.draw(window);
     }
+
+    finishLine.draw(window);
 
     player.draw(window);
 

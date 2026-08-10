@@ -9,7 +9,7 @@ LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET = game
 
-SOURCES = main.cpp Game.cpp Player.cpp Platform.cpp Spike.cpp
+SOURCES = main.cpp Game.cpp Player.cpp Platform.cpp Spike.cpp FinishLine.cpp
 
 $(TARGET): $(SOURCES)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(TARGET) $(LIBRARY_PATH) $(LIBRARIES)
