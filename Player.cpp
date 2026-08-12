@@ -2,13 +2,21 @@
 
 Player::Player() {
     box.setSize(sf::Vector2f(50.f, 50.f));
-    box.setPosition(50.f, 100.f);
+
+    box.setOrigin(
+        box.getSize().x / 2.f,
+        box.getSize().y / 2.f
+    );
+
+    box.setPosition(75.f, 125.f);
+
     box.setFillColor(sf::Color::Cyan);
 
     horizontalSpeed = 200.f;
     verticalVelocity = 0.f;
-    gravity = 1000.f;
-    jumpVelocity = -600.f;
+    gravity = 1200.f;
+    jumpVelocity = -650.f;
+    rotationSpeed = 90.f;
 
     onGround = false;
     alive = true;
@@ -29,6 +37,10 @@ void Player::update(float deltaTime) {
         horizontalSpeed * deltaTime,
         verticalVelocity * deltaTime
     );
+
+    if (!onGround) {
+        box.rotate(rotationSpeed * deltaTime);
+    }
 }
 
 void Player::draw(sf::RenderWindow& window) const {
@@ -50,18 +62,24 @@ sf::Vector2f Player::getPosition() const {
 void Player::landOn(float platformTop) {
     box.setPosition(
         box.getPosition().x,
-        platformTop - box.getSize().y
+        platformTop - box.getSize().y / 2.f
     );
 
     verticalVelocity = 0.f;
     onGround = true;
+
+    box.setRotation(0.f);
 }
 
-void Player::jump() {
+bool Player::jump() {
     if (onGround && alive) {
         verticalVelocity = jumpVelocity;
         onGround = false;
+
+        return true;
     }
+
+    return false;
 }
 
 void Player::die() {
@@ -70,7 +88,8 @@ void Player::die() {
 }
 
 void Player::reset() {
-    box.setPosition(50.f, 100.f);
+    box.setPosition(75.f, 125.f);
+    box.setRotation(0.f);
     box.setFillColor(sf::Color::Cyan);
 
     verticalVelocity = 0.f;

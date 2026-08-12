@@ -2,7 +2,7 @@
 
 FinishLine::FinishLine(float x, float groundTop) {
     const float width = 20.f;
-    const float height = 150.f;
+    const float height = 500.f;
 
     shape.setSize(
         sf::Vector2f(width, height)

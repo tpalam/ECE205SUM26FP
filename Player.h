@@ -11,6 +11,7 @@ private:
     float verticalVelocity;
     float gravity;
     float jumpVelocity;
+    float rotationSpeed;
 
     bool onGround;
     bool alive;
@@ -29,7 +30,7 @@ public:
 
     void landOn(float platformTop);
 
-    void jump();
+    bool jump();
     void die();
     void reset();
 

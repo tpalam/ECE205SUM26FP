@@ -2,15 +2,17 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <SFML/Audio.hpp>
 
 #include "Player.h"
-#include "Platform.h"
-#include "Spike.h"
+#include "Level.h"
 #include "FinishLine.h"
+#include "Background.h"
 
 enum class GameState {
+    Start,
     Playing,
+    Paused,
     Dead,
     Complete
 };
@@ -22,13 +24,26 @@ private:
     sf::Clock clock;
 
     Player player;
-
-    std::vector<Platform> platforms;
-    std::vector<Spike> spikes;
-
+    Level level;
     FinishLine finishLine;
 
     GameState state;
+
+    Background background;
+
+    sf::SoundBuffer jumpBuffer;
+    sf::SoundBuffer deathBuffer;
+
+    sf::Sound jumpSound;
+    sf::Sound deathSound;
+
+    sf::Music music;
+
+    sf::RectangleShape progressBackground;
+    sf::RectangleShape progressBar;
+
+    sf::Font font;
+    sf::Text statusText;
 
     void processEvents();
     void update(float deltaTime);
@@ -38,7 +53,11 @@ private:
     void handleFinishCollision();
 
     void updateCamera();
+    void updateProgressBar();
     void render();
+    void centerStatusText();
+
+    
 
 public:
     Game();
