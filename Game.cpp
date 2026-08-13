@@ -189,6 +189,10 @@ void Game::update(float deltaTime) {
 
         player.update(deltaTime);
 
+        for (const auto& obstacle : level.getObstacles()) {
+            obstacle->update(deltaTime);
+        }
+
         handlePlatformCollisions();
 
         handleSpikeCollisions();
@@ -247,24 +251,24 @@ void Game::handlePlatformCollisions() {
 }
 
 void Game::handleSpikeCollisions() {
-    const std::vector<Spike>& spikes =
-        level.getSpikes();
+    const std::vector<std::unique_ptr<Obstacle>>& obstacles =
+        level.getObstacles();
 
-    for (const Spike& spike : spikes) {
-
+    for (const auto& obstacle : obstacles) {
         if (player.getBounds().intersects(
-                spike.getBounds())) {
+                obstacle->getBounds())) {
 
             player.die();
             deathSound.play();
 
-            state =
-                GameState::Dead;
+            state = GameState::Dead;
 
             statusText.setString(
                 "YOU DIED - PRESS R"
             );
+
             centerStatusText();
+
             break;
         }
     }
@@ -371,12 +375,12 @@ void Game::render() {
         platform.draw(window);
     }
 
-    const std::vector<Spike>& spikes =
-        level.getSpikes();
+    const std::vector<std::unique_ptr<Obstacle>>& obstacles =
+    level.getObstacles();
 
-    for (const Spike& spike : spikes) {
-        spike.draw(window);
-    }
+for (const auto& obstacle : obstacles) {
+    obstacle->draw(window);
+}
 
     finishLine.draw(window);
 

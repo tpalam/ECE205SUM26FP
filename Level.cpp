@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "ObjectFactory.h"
+
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -26,8 +27,9 @@ bool Level::loadFromFile(const std::string& filename) {
     file >> data;
 
     platforms.clear();
-    spikes.clear();
+    obstacles.clear();
 
+    // Load platforms.
     for (const auto& platformData : data["platforms"]) {
         float x =
             platformData["x"];
@@ -43,14 +45,15 @@ bool Level::loadFromFile(const std::string& filename) {
 
         platforms.push_back(
             ObjectFactory::createPlatform(
-                x,             
+                x,
                 y,
                 width,
                 height
             )
-            );
+        );
     }
 
+    // Load spikes.
     for (const auto& spikeData : data["spikes"]) {
         float x =
             spikeData["x"];
@@ -58,14 +61,48 @@ bool Level::loadFromFile(const std::string& filename) {
         float groundTop =
             spikeData["groundTop"];
 
-        spikes.push_back(
+        obstacles.push_back(
             ObjectFactory::createSpike(
-                x,                    
+                x,
                 groundTop
             )
         );
     }
 
+    // Load saw blades.
+    for (const auto& sawData : data["saws"]) {
+        float x =
+            sawData["x"];
+
+        float y =
+            sawData["y"];
+
+        float radius =
+            sawData["radius"];
+
+        std::string styleString =
+            sawData["style"];
+
+        SawBladeStyle style;
+
+        if (styleString == "GEAR") {
+            style = SawBladeStyle::Gear;
+        }
+        else {
+            style = SawBladeStyle::Spiked;
+        }
+
+        obstacles.push_back(
+            ObjectFactory::createSawBlade(
+                x,
+                y,
+                radius,
+                style
+            )
+        );
+    }
+
+    // Load finish line data.
     finishX =
         data["finish"]["x"];
 
@@ -82,9 +119,9 @@ Level::getPlatforms() const {
     return platforms;
 }
 
-const std::vector<Spike>&
-Level::getSpikes() const {
-    return spikes;
+const std::vector<std::unique_ptr<Obstacle>>&
+Level::getObstacles() const {
+    return obstacles;
 }
 
 float Level::getFinishX() const {

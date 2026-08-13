@@ -2,17 +2,25 @@
 #define SPIKE_H
 
 #include <SFML/Graphics.hpp>
+#include "Obstacle.h"
 
-class Spike {
+class Spike : public Obstacle {
 private:
     sf::ConvexShape shape;
 
 public:
-    Spike(float x, float platformTop);
+    Spike(
+        float x,
+        float platformTop
+    );
 
-    void draw(sf::RenderWindow& window) const;
+    void update(float deltaTime) override;
 
-    sf::FloatRect getBounds() const;
+    void draw(
+        sf::RenderWindow& window
+    ) const override;
+
+    sf::FloatRect getBounds() const override;
 };
 
 #endif

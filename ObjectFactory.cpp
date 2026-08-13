@@ -14,12 +14,28 @@ Platform ObjectFactory::createPlatform(
     );
 }
 
-Spike ObjectFactory::createSpike(
+std::unique_ptr<Obstacle>
+ObjectFactory::createSpike(
     float x,
     float groundTop
 ) {
-    return Spike(
+    return std::make_unique<Spike>(
         x,
         groundTop
+    );
+}
+
+std::unique_ptr<Obstacle>
+ObjectFactory::createSawBlade(
+    float x,
+    float y,
+    float radius,
+    SawBladeStyle style
+) {
+    return std::make_unique<SawBlade>(
+        x,
+        y,
+        radius,
+        style
     );
 }

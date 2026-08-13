@@ -40,3 +40,7 @@ void Spike::draw(
 sf::FloatRect Spike::getBounds() const {
     return shape.getGlobalBounds();
 }
+
+void Spike::update(float) {
+    // Spike is stationary.
+}

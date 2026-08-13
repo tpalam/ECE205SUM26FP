@@ -11,7 +11,7 @@ LIBRARIES = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 TARGET = game
 
-SOURCES = main.cpp Game.cpp Player.cpp Platform.cpp Spike.cpp FinishLine.cpp Level.cpp ObjectFactory.cpp Background.cpp
+SOURCES = main.cpp Game.cpp Player.cpp Platform.cpp Spike.cpp SawBlade.cpp FinishLine.cpp Level.cpp ObjectFactory.cpp Background.cpp
 
 $(TARGET): $(SOURCES)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(TARGET) $(LIBRARY_PATH) $(LIBRARIES)
