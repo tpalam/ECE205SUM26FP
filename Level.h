@@ -7,13 +7,14 @@
 
 #include "Platform.h"
 #include "Obstacle.h"
+#include "PowerUp.h"
 
 class Level {
 private:
     std::vector<Platform> platforms;
 
     std::vector<std::unique_ptr<Obstacle>> obstacles;
-
+    std::vector<std::unique_ptr<PowerUp>> powerUps;
     float finishX;
     float finishGroundTop;
 
@@ -33,6 +34,8 @@ public:
     float getFinishX() const;
 
     float getFinishGroundTop() const;
+    const std::vector<std::unique_ptr<PowerUp>>&
+        getPowerUps() const;
 };
 
 #endif

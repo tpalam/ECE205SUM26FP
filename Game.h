@@ -44,12 +44,13 @@ private:
 
     sf::Font font;
     sf::Text statusText;
+    sf::Text coordinateText;
 
     void processEvents();
     void update(float deltaTime);
 
     void handlePlatformCollisions();
-    void handleSpikeCollisions();
+    void handleObstacleCollisions();
     void handleFinishCollision();
 
     void updateCamera();
@@ -57,7 +58,7 @@ private:
     void render();
     void centerStatusText();
 
-    
+    void handlePowerUpCollisions();
 
 public:
     Game();

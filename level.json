@@ -181,14 +181,7 @@
             "x": 6400,
             "groundTop": 500
         },
-        {
-            "x": 6700,
-            "groundTop": 500
-        },
-        {
-            "x": 6750,
-            "groundTop": 500
-        },
+        
         {
             "x": 7100,
             "groundTop": 500
@@ -197,10 +190,7 @@
             "x": 7150,
             "groundTop": 500
         },
-        {
-            "x": 8750,
-            "groundTop": 500
-        },
+       
         {
             "x": 9050,
             "groundTop": 500
@@ -237,10 +227,7 @@
             "x": 13650,
             "groundTop": 500
         },
-        {
-            "x": 13700,
-            "groundTop": 500
-        },
+        
         {
             "x": 14050,
             "groundTop": 500
@@ -284,7 +271,7 @@
         },
         {
             "x": 3000,
-            "y": 440,
+            "y": 600,
             "radius": 50,
             "style": "GEAR"
         }
@@ -293,5 +280,19 @@
     "finish": {
         "x": 18000,
         "groundTop": 500
+    },
+
+    "powerUps": [
+    {
+        "type": "SPEED",
+        "x": 5000,
+        "groundTop": 500
+    },
+    {
+        "type": "SLOW",
+        "x": 8000,
+        "groundTop": 300
     }
+]
+    
 }

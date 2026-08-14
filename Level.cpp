@@ -28,6 +28,7 @@ bool Level::loadFromFile(const std::string& filename) {
 
     platforms.clear();
     obstacles.clear();
+    powerUps.clear();
 
     // Load platforms.
     for (const auto& platformData : data["platforms"]) {
@@ -68,7 +69,35 @@ bool Level::loadFromFile(const std::string& filename) {
             )
         );
     }
-
+    //powerup load
+    for (const auto& powerUpData : data["powerUps"]) {
+        std::string type =
+            powerUpData["type"];
+    
+        float x =
+            powerUpData["x"];
+    
+        float groundTop =
+            powerUpData["groundTop"];
+    
+        if (type == "SPEED") {
+            powerUps.push_back(
+                ObjectFactory::createSpeedBoost(
+                    x,
+                    groundTop
+                )
+            );
+        }
+    
+        else if (type == "SLOW") {
+            powerUps.push_back(
+                ObjectFactory::createSlowDown(
+                    x,
+                    groundTop
+                )
+            );
+        }
+    }
     // Load saw blades.
     for (const auto& sawData : data["saws"]) {
         float x =
@@ -131,3 +160,10 @@ float Level::getFinishX() const {
 float Level::getFinishGroundTop() const {
     return finishGroundTop;
 }
+
+const std::vector<std::unique_ptr<PowerUp>>&
+Level::getPowerUps() const {
+    return powerUps;
+}
+
+

@@ -12,7 +12,8 @@ Player::Player() {
 
     box.setFillColor(sf::Color::Cyan);
 
-    horizontalSpeed = 200.f;
+    normalSpeed = 225.f;
+    horizontalSpeed = normalSpeed;
     verticalVelocity = 0.f;
     gravity = 1200.f;
     jumpVelocity = -650.f;
@@ -93,11 +94,20 @@ void Player::reset() {
     box.setFillColor(sf::Color::Cyan);
 
     verticalVelocity = 0.f;
+    horizontalSpeed = normalSpeed;
 
     onGround = false;
     alive = true;
 
     previousBounds = box.getGlobalBounds();
+}
+
+void Player::setHorizontalSpeed(float speed) {
+    horizontalSpeed = speed;
+}
+
+void Player::resetHorizontalSpeed() {
+    horizontalSpeed = normalSpeed;
 }
 
 bool Player::isAlive() const {

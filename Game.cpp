@@ -76,7 +76,19 @@ Game::Game()
     );
 
     centerStatusText();
+    // Set up player coordinate display.
+    coordinateText.setFont(font);
 
+    coordinateText.setCharacterSize(20);
+
+    coordinateText.setFillColor(
+        sf::Color::White
+    );
+
+    coordinateText.setPosition(
+        800.f,
+        20.f
+    );
     if (!jumpBuffer.loadFromFile("assets/jump.wav")) {
         std::cout << "Failed to load jump sound.\n";
     }
@@ -162,7 +174,7 @@ void Game::processEvents() {
                 }
             }
         }
-        }
+
         if (event.type == sf::Event::KeyPressed &&
             event.key.code == sf::Keyboard::P) {
         
@@ -183,28 +195,40 @@ void Game::processEvents() {
             }
         }
     }
+}
 
 void Game::update(float deltaTime) {
     if (state == GameState::Playing) {
 
         player.update(deltaTime);
 
-        for (const auto& obstacle : level.getObstacles()) {
-            obstacle->update(deltaTime);
-        }
-
         handlePlatformCollisions();
 
-        handleSpikeCollisions();
+        handleObstacleCollisions();
+
+        handlePowerUpCollisions();
 
         handleFinishCollision();
 
         updateCamera();
 
         updateProgressBar();
+
+        sf::Vector2f playerPosition =
+            player.getPosition();
+
+        coordinateText.setString(
+            "X: " +
+            std::to_string(
+                static_cast<int>(playerPosition.x)
+            ) +
+            "  Y: " +
+            std::to_string(
+                static_cast<int>(playerPosition.y)
+            )
+        );
     }
 }
-
 void Game::handlePlatformCollisions() {
     sf::FloatRect currentBounds =
         player.getBounds();
@@ -250,7 +274,20 @@ void Game::handlePlatformCollisions() {
     }
 }
 
-void Game::handleSpikeCollisions() {
+void Game::handlePowerUpCollisions() {
+    const auto& powerUps =
+        level.getPowerUps();
+
+    for (const auto& powerUp : powerUps) {
+        if (player.getBounds().intersects(
+                powerUp->getBounds())) {
+
+            powerUp->apply(player);
+        }
+    }
+}
+
+void Game::handleObstacleCollisions() {
     const std::vector<std::unique_ptr<Obstacle>>& obstacles =
         level.getObstacles();
 
@@ -385,7 +422,9 @@ for (const auto& obstacle : obstacles) {
     finishLine.draw(window);
 
     player.draw(window);
-
+    for (const auto& powerUp : level.getPowerUps()) {
+        powerUp->draw(window);
+    }
     // Switch to fixed screen coordinates for UI.
     window.setView(
         window.getDefaultView()
@@ -399,6 +438,8 @@ for (const auto& obstacle : obstacles) {
         progressBar
     );
 
+    window.draw(coordinateText);
+
     if (state == GameState::Start ||
         state == GameState::Paused ||
         state == GameState::Dead ||
@@ -409,5 +450,4 @@ for (const auto& obstacle : obstacles) {
 
     window.display();
 }
-
 

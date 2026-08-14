@@ -7,6 +7,9 @@
 #include "Spike.h"
 #include "SawBlade.h"
 #include "Platform.h"
+#include "PowerUp.h"
+#include "SpeedBoost.h"
+#include "SlowDown.h"
 
 class ObjectFactory {
 public:
@@ -27,6 +30,15 @@ public:
         float y,
         float width,
         float height
+    );
+    static std::unique_ptr<PowerUp> createSpeedBoost(
+        float x,
+        float groundTop
+    );
+    
+    static std::unique_ptr<PowerUp> createSlowDown(
+        float x,
+        float groundTop
     );
 };
 

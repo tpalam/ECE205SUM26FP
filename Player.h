@@ -7,6 +7,7 @@ class Player {
 private:
     sf::RectangleShape box;
 
+    float normalSpeed;
     float horizontalSpeed;
     float verticalVelocity;
     float gravity;
@@ -33,6 +34,9 @@ public:
     bool jump();
     void die();
     void reset();
+
+    void setHorizontalSpeed(float speed);
+    void resetHorizontalSpeed();
 
     bool isAlive() const;
 };

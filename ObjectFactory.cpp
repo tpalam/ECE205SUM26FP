@@ -39,3 +39,24 @@ ObjectFactory::createSawBlade(
         style
     );
 }
+std::unique_ptr<PowerUp>
+ObjectFactory::createSpeedBoost(
+    float x,
+    float groundTop
+) {
+    return std::make_unique<SpeedBoost>(
+        x,
+        groundTop
+    );
+}
+
+std::unique_ptr<PowerUp>
+ObjectFactory::createSlowDown(
+    float x,
+    float groundTop
+) {
+    return std::make_unique<SlowDown>(
+        x,
+        groundTop
+    );
+}
