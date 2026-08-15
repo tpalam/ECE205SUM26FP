@@ -44,7 +44,7 @@ private:
 
     sf::Font font;
     sf::Text statusText;
-    sf::Text coordinateText;
+        sf::Text coordinateText;
 
     void processEvents();
     void update(float deltaTime);
