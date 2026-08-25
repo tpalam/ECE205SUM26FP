@@ -24,7 +24,14 @@ bool Level::loadFromFile(const std::string& filename) {
 
     json data;
 
-    file >> data;
+    try {
+        file >> data;
+    }
+    catch (const json::exception& error) {
+        std::cout << "Invalid level file " << filename
+                  << ": " << error.what() << "\n";
+        return false;
+    }
 
     platforms.clear();
     obstacles.clear();
@@ -165,5 +172,4 @@ const std::vector<std::unique_ptr<PowerUp>>&
 Level::getPowerUps() const {
     return powerUps;
 }
-
 
